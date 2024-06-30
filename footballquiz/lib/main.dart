@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 
 void main() {
   runApp( Footballquiz());
@@ -13,21 +13,30 @@ class Footballquiz extends StatefulWidget {
 }
 
 class _FootballquizState extends State<Footballquiz> {
-  List<Icon> scoreKeeper = [
-       Icon(
+   List<Icon> scoreKeeper = [
+      const  Icon(
         Icons.check_box,
         color: Color.fromARGB(255, 7, 234, 45),
         size: 34.0,
       ),
-       Icon(
+       const Icon(
         Icons.close,
         color: Colors.pink,
         size: 34.0,
       )
     ];
+  List<String> questions=[
+     " Some cats are actually allergic to humans",
+      "Buzz Aldrins mothers maiden name was 1 ",
+      "Buzz Aldrins mothers maiden name was 2",
+      "Buzz Aldrins mothers maiden name was 3",
+      "Buzz Aldrins mothers maiden name was 4 "
+    ];
+    List<bool> answers=[ true, false,true,false];
+    int questionNum=0;
   @override
   Widget build(BuildContext context) {
-     
+    
 
     return MaterialApp(
       home: Scaffold(
@@ -37,17 +46,19 @@ class _FootballquizState extends State<Footballquiz> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-              const Expanded(
+               Expanded(
                 flex: 5,
                 child: Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Center(
-                    child: Text("Here is my Question",
+                    
+                    child:  Text(questions[questionNum],
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 25.0,
                           color: Colors.white,
-                        )),
+                        )
+                        ),
                   ),
                 ),
               ),
@@ -57,13 +68,28 @@ class _FootballquizState extends State<Footballquiz> {
                   child: TextButton(
                     onPressed: () {
   setState(() {
-    scoreKeeper.add(
-      Icon(
+    bool currentanswer=true;
+    if(currentanswer == answers[questionNum])
+    {
+scoreKeeper.add(
+      const Icon(
         Icons.check_box,
         color: Color.fromARGB(255, 7, 234, 45),
         size: 34.0,
       ),
     );
+    }
+    else{
+      scoreKeeper.add(
+         const Icon(
+        Icons.close,
+        color: Colors.pink,
+        size: 34.0,
+      )
+    );
+    }
+    questionNum++;
+    
   }
   );
 },
@@ -82,6 +108,9 @@ class _FootballquizState extends State<Footballquiz> {
                   )
                 ),
               ),
+
+
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -99,13 +128,28 @@ class _FootballquizState extends State<Footballquiz> {
                     ),
                            onPressed: () {
   setState(() {
-    scoreKeeper.add(
-          Icon(
+    bool currentanswer=false;
+    if(currentanswer == answers[questionNum])
+    {
+scoreKeeper.add(
+      const Icon(
+        Icons.check_box,
+        color: Color.fromARGB(255, 7, 234, 45),
+        size: 34.0,
+      ),
+    );
+    }
+    else{
+      scoreKeeper.add(
+         const Icon(
         Icons.close,
         color: Colors.pink,
         size: 34.0,
       )
     );
+    }
+    questionNum++;
+    
   }
   );
 },
