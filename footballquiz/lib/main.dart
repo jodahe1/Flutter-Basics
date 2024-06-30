@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:footballquiz/question.dart';
 
 
 void main() {
@@ -25,15 +26,18 @@ class _FootballquizState extends State<Footballquiz> {
         size: 34.0,
       )
     ];
-  List<String> questions=[
-     " Some cats are actually allergic to humans",
-      "Buzz Aldrins mothers maiden name was 1 ",
-      "Buzz Aldrins mothers maiden name was 2",
-      "Buzz Aldrins mothers maiden name was 3",
-      "Buzz Aldrins mothers maiden name was 4 "
-    ];
-    List<bool> answers=[ true, false,true,false];
+
+    
     int questionNum=0;
+    List<Question>  questions=[
+      Question("Buzz Aldrins mothers maiden name was 1",true),
+      Question("Buzz Aldrins mothers maiden name was 21",false),
+      Question("Buzz Aldrins mothers maiden name was 31",true),
+     Question("Buzz Aldrins mothers maiden name was 41",false),
+       Question("Buzz Aldrins mothers maiden name was 51",false),
+          Question("Buzz Aldrins mothers maiden name was 61",false),
+    ];
+   
   @override
   Widget build(BuildContext context) {
     
@@ -52,7 +56,7 @@ class _FootballquizState extends State<Footballquiz> {
                   padding: const EdgeInsets.all(10.0),
                   child: Center(
                     
-                    child:  Text(questions[questionNum],
+                    child:  Text(questions[questionNum].questionText,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 25.0,
@@ -69,7 +73,7 @@ class _FootballquizState extends State<Footballquiz> {
                     onPressed: () {
   setState(() {
     bool currentanswer=true;
-    if(currentanswer == answers[questionNum])
+    if(currentanswer == questions[questionNum].questionAnswer)
     {
 scoreKeeper.add(
       const Icon(
@@ -129,7 +133,7 @@ scoreKeeper.add(
                            onPressed: () {
   setState(() {
     bool currentanswer=false;
-    if(currentanswer == answers[questionNum])
+   if(currentanswer == questions[questionNum].questionAnswer)
     {
 scoreKeeper.add(
       const Icon(
