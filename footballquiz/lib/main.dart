@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:footballquiz/quizbrain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 void main() {
-  runApp( Footballquiz());
+  runApp( MaterialApp(home: Footballquiz()));
 }
 
 class Footballquiz extends StatefulWidget {
@@ -14,19 +15,42 @@ class Footballquiz extends StatefulWidget {
 }
 
 class _FootballquizState extends State<Footballquiz> {
-   List<Icon> scoreKeeper = [
-      const  Icon(
+   List<Icon> scoreKeeper = [];
+     
+     void checkanswer(bool useranswer)
+     {
+      
+  setState(() {
+    bool currentanswer=useranswer;
+    if(currentanswer == questions.getQuestionAnswer())
+    {
+      questions.score++;
+scoreKeeper.add(
+      const Icon(
         Icons.check_box,
         color: Color.fromARGB(255, 7, 234, 45),
         size: 34.0,
       ),
-       const Icon(
+    );
+    }
+    else{
+      scoreKeeper.add(
+         const Icon(
         Icons.close,
         color: Colors.pink,
         size: 34.0,
       )
-    ];
-
+    );
+    }
+ questions.nextQuestion();
+ if (questions.lastquestion())
+    {
+      Alert(context: context, title: "Finished", desc: "You Get ${questions.score} out of ${questions.questionCount}").show();
+    scoreKeeper.clear();
+    }
+  }
+  );
+     }
     
    
     QuestionBank questions=QuestionBank();
@@ -36,6 +60,14 @@ class _FootballquizState extends State<Footballquiz> {
 
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          title: const Center(
+            child:  Text("Welcome to Football Quiz" , 
+            style: TextStyle(fontSize: 24.5 , color: Colors.white)
+            ),
+          ),
+backgroundColor: const Color.fromARGB(160, 130, 123, 123),
+        ),
         backgroundColor: Colors.grey.shade900,
         body: SafeArea(
             child: Column(
@@ -63,35 +95,12 @@ class _FootballquizState extends State<Footballquiz> {
                   padding: const EdgeInsets.all(15.0),
                   child: TextButton(
                     onPressed: () {
-  setState(() {
-    bool currentanswer=true;
-    if(currentanswer == questions.getQuestionAnswer())
-    {
-scoreKeeper.add(
-      const Icon(
-        Icons.check_box,
-        color: Color.fromARGB(255, 7, 234, 45),
-        size: 34.0,
-      ),
-    );
-    }
-    else{
-      scoreKeeper.add(
-         const Icon(
-        Icons.close,
-        color: Colors.pink,
-        size: 34.0,
-      )
-    );
-    }
- questions.nextQuestion();
-    
-  }
-  );
-},
+
+                                  checkanswer(true);
+                                 },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromARGB(0, 12, 214, 72)),
+                          const Color.fromARGB(232, 12, 214, 73)),
                     ),
                     child: const Text(
                       'True',
@@ -113,7 +122,7 @@ scoreKeeper.add(
                   child: TextButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromARGB(0, 227, 56, 8)),
+                          const Color.fromARGB(233, 193, 49, 9)),
                     ),
                     child: const Text(
                       'False',
@@ -123,39 +132,18 @@ scoreKeeper.add(
                       ),
                     ),
                            onPressed: () {
-  setState(() {
-    bool currentanswer=false;
-   if(currentanswer == questions.getQuestionAnswer())
-    {
-scoreKeeper.add(
-      const Icon(
-        Icons.check_box,
-        color: Color.fromARGB(255, 7, 234, 45),
-        size: 34.0,
-      ),
-    );
-    }
-    else{
-      scoreKeeper.add(
-         const Icon(
-        Icons.close,
-        color: Colors.pink,
-        size: 34.0,
-      )
-    );
-    }
-   questions.nextQuestion();
-    
-  }
-  );
-},
+     checkanswer(false);
+                                },
                   ),
                 ),
               ),
                Expanded(
-                 child: Row(
-                  children: scoreKeeper,
-                               ),
+                 child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                   child: Row(
+                    children: scoreKeeper,
+                                 ),
+                 ),
                )
             ])),
       ),
